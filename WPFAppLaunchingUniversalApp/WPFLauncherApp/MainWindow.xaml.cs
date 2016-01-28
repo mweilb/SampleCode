@@ -14,6 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Windows.System;
+using Windows.Foundation;
+using Windows.Management.Deployment;
+using System.Threading;
+using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace WPFLauncherApp
 {
@@ -22,8 +26,8 @@ namespace WPFLauncherApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Uri uri = new Uri("com.aruntalkstech.universaltarget:DoSomething?With=This");
-        const string TargetPackageFamilyName = "06c4afd0-0d59-4cef-a927-39fc6c4a9f5c_876gvmnfevegr";
+        readonly Uri uri = new Uri("minecraft://DoSomething?With=This");
+        const string TargetPackageFamilyName = "Microsoft.MinecraftUWP_8wekyb3d8bbwe";
 
         public MainWindow()
         {
@@ -36,7 +40,11 @@ namespace WPFLauncherApp
             var supportStatus = await Launcher.QueryUriSupportAsync(uri, LaunchQuerySupportType.Uri, TargetPackageFamilyName);
             if (supportStatus != LaunchQuerySupportStatus.Available)
             {
-                Status.Text = "Can't launch com.aruntalkstech.universaltarget: because the app we need is " + supportStatus.ToString();
+                //Uri uriNew = new Uri("ms-windows-store://pdp/?productid=9NBLGGH2JHXJ");
+
+                AppInstallManager manager = new AppInstallManager();
+                var installItems = manager.StartAppInstallAsync("9NBLGGH2JHXJ", "", true, false);
+                Status.Text = "Because the app we need is " + supportStatus.ToString();
             }
         }
 
@@ -46,5 +54,9 @@ namespace WPFLauncherApp
             bool success = await Launcher.LaunchUriAsync(uri, options);
             Debug.WriteLine(success);
         }
-    }
+ 
+
+ 
+
+}
 }
