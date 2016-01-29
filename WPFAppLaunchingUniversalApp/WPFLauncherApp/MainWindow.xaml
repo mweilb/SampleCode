@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Button x:Name="LaunchTargetApp" Content="Launch Target App" HorizontalAlignment="Center" VerticalAlignment="Center" Click="LaunchTargetApp_Click" />
+            <Button x:Name="LaunchTargetApp" Content="Launch Target App" HorizontalAlignment="Center" VerticalAlignment="Center" Click="LaunchTargetApp_Click" IsEnabled="False" />
             <TextBlock x:Name="Status" Foreground="Red" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>

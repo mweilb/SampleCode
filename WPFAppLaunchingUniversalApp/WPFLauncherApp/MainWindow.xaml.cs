@@ -13,7 +13,7 @@ namespace WPFLauncherApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Uri uri = new Uri("minecraft://DoSomething?With=This");
+        readonly Uri uri = new Uri("minecraft://Mode?Oculus=true");
         const string TargetPackageFamilyName = "Microsoft.MinecraftUWP_8wekyb3d8bbwe";
         bool bLoading = false;
         public MainWindow()
@@ -25,6 +25,7 @@ namespace WPFLauncherApp
         {
             if (bLoading == false)
             {
+                
                 //Test whether the app we want to launch is installed
                 var supportStatus = await Launcher.QueryUriSupportAsync(uri, LaunchQuerySupportType.Uri, TargetPackageFamilyName);
                 if (supportStatus != LaunchQuerySupportStatus.Available)
@@ -39,6 +40,9 @@ namespace WPFLauncherApp
                     installItems.StatusChanged += new TypedEventHandler<AppInstallItem, System.Object>((app, obj) => StatusChangedUpdate(Status, app, obj));
                     installItems.Completed += new TypedEventHandler<AppInstallItem, System.Object>((app, obj) => CompletedUpdate(Status, app, obj));
                 }
+                else {
+                    LaunchTargetApp.IsEnabled = true;
+                }
             }
         }
 
@@ -46,7 +50,7 @@ namespace WPFLauncherApp
         {
             var options = new LauncherOptions { TargetApplicationPackageFamilyName = TargetPackageFamilyName };
             bool success = await Launcher.LaunchUriAsync(uri, options);
-            Debug.WriteLine(success);
+            Close();
         }
 
         private void StatusChangedUpdate(TextBlock statusText, AppInstallItem app, System.Object status)
@@ -64,7 +68,8 @@ namespace WPFLauncherApp
         {
             Dispatcher.Invoke((Action)(() =>
             {
-                statusText.Text = "Lets go";
+                statusText.Text = "Download is good.";
+                LaunchTargetApp.IsEnabled = true;
             }));
         }
     }
